@@ -8,7 +8,7 @@
 | Thái Hoài An | 2A202601862 |
 | Trần Quang Minh | 2A202601210 |
 | [Họ tên thành viên 4] | [MSSV] |
-| [Họ tên thành viên 5] | [MSSV] |
+| Dương Đức Minh | 2A202601306 |
 
 - Repository: `hoaianthai345/phase2-k3-4-track3-day8-langgraph-agent`
 - Execution command: `make run-scenarios && make grade-local`
