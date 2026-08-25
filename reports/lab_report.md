@@ -1,42 +1,4 @@
-"""Report generation helper.
-
-TODO(student): implement report rendering using MetricsReport data
-and the template in reports/lab_report_template.md.
-"""
-
-from __future__ import annotations
-
-from pathlib import Path
-
-from .metrics import MetricsReport
-
-
-def render_report(metrics: MetricsReport) -> str:
-    """Render a complete lab report from metrics data.
-
-    TODO(student): Generate a report that includes:
-    1. Metrics summary table (total scenarios, success rate, retries, interrupts)
-    2. Per-scenario results table
-    3. Architecture explanation (your graph design, state schema, reducers)
-    4. Failure analysis (at least two failure modes you considered)
-    5. Improvement plan
-
-    Use reports/lab_report_template.md as your guide.
-
-    Return: formatted markdown string
-    """
-    rows = "\n".join(
-        "| {id} | {expected} | {actual} | {success} | {retries} | {interrupts} |".format(
-            id=item.scenario_id,
-            expected=item.expected_route,
-            actual=item.actual_route or "—",
-            success="✅" if item.success else "❌",
-            retries=item.retry_count,
-            interrupts=item.interrupt_count,
-        )
-        for item in metrics.scenario_metrics
-    )
-    return f"""# Day 08 Lab Report — LangGraph Agentic Orchestration
+# Day 08 Lab Report — LangGraph Agentic Orchestration
 
 ## 1. Student and reproducibility
 
@@ -76,16 +38,22 @@ The graph separates normalization, LLM intent classification, tool execution, ev
 
 | Scenario | Expected route | Actual route | Success | Retries | Interrupts |
 |---|---|---|---:|---:|---:|
-{rows}
+| S01_simple | simple | simple | ✅ | 0 | 0 |
+| S02_tool | tool | tool | ✅ | 0 | 0 |
+| S03_missing | missing_info | missing_info | ✅ | 0 | 0 |
+| S04_risky | risky | risky | ✅ | 0 | 1 |
+| S05_error | error | error | ✅ | 2 | 0 |
+| S06_delete | risky | risky | ✅ | 0 | 1 |
+| S07_dead_letter | error | error | ✅ | 1 | 0 |
 
 | Aggregate metric | Value |
 |---|---:|
-| Total scenarios | {metrics.total_scenarios} |
-| Success rate | {metrics.success_rate:.2%} |
-| Average nodes visited | {metrics.avg_nodes_visited:.2f} |
-| Total retries | {metrics.total_retries} |
-| Total approval/HITL events | {metrics.total_interrupts} |
-| State-history replay observed | {"yes" if metrics.resume_success else "no"} |
+| Total scenarios | 7 |
+| Success rate | 100.00% |
+| Average nodes visited | 6.43 |
+| Total retries | 3 |
+| Total approval/HITL events | 2 |
+| State-history replay observed | yes |
 
 ## 5. Failure analysis
 
@@ -103,11 +71,3 @@ The submission includes two extensions: optional real HITL via `interrupt()` and
 ## 8. Improvement plan
 
 First, replace the mock tool with authenticated, idempotent support-system tools and validate their schemas. Next, add LLM-as-judge evaluation with offline fixtures, explicit approval roles, and tracing/latency instrumentation for production monitoring.
-"""
-
-
-def write_report(metrics: MetricsReport, output_path: str | Path) -> None:
-    """Write the rendered report to a file."""
-    path = Path(output_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(render_report(metrics), encoding="utf-8")

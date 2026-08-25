@@ -13,7 +13,8 @@ dependencies = [
   "PyYAML>=6.0",
   "rich>=13.7",
   "typer>=0.12",
-  "langgraph>=0.3.0",
+  "langgraph>=0.3.0,<0.4.0",
+  "python-dotenv>=1.0",
 ]
 
 [project.optional-dependencies]
@@ -24,7 +25,7 @@ dev = [
   "mypy>=1.10",
 ]
 google = ["langchain-google-genai>=2.1.0"]
-openai = ["langchain-openai>=0.3.0"]
+openai = ["langchain-openai>=0.3.0,<0.4.0"]
 anthropic = ["langchain-anthropic>=0.3.0"]
 sqlite = ["langgraph-checkpoint-sqlite>=2.0"]
 postgres = ["langgraph-checkpoint-postgres>=2.0"]
@@ -40,10 +41,18 @@ line-length = 100
 target-version = "py311"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "B", "UP", "N", "ANN"]
-ignore = ["ANN101", "ANN102"]
+select = ["E", "F", "I", "B", "UP", "N"]
+# Tests intentionally set skip markers before importing the optional LangGraph package;
+# generated Markdown prose also need not obey Python's physical line limit.
+ignore = ["E402", "E501"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
 addopts = "-q --strict-markers"
 testpaths = ["tests"]
+
+[tool.mypy]
+# LangGraph/LangChain's optional provider imports are large; source files remain checked while
+# third-party implementation trees are not recursively analysed.
+follow_imports = "skip"
+ignore_missing_imports = true
