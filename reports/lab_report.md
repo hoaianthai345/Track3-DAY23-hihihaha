@@ -6,7 +6,7 @@
 | --- | --- |
 | Nguyễn Văn Hải | 2A202601708 |
 | Thái Hoài An | 2A202601862 |
-| [Họ tên thành viên 3] | [MSSV] |
+| Trần Quang Minh | 2A202601210 |
 | [Họ tên thành viên 4] | [MSSV] |
 | [Họ tên thành viên 5] | [MSSV] |
 
