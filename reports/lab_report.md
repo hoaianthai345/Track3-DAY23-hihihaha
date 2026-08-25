@@ -1,8 +1,15 @@
 # Day 08 Lab Report — LangGraph Agentic Orchestration
 
-## 1. Student and reproducibility
+## 1. Team information and reproducibility
 
-- Student: An Hoai Thai
+| Member | Student ID |
+| --- | --- |
+| Nguyễn Văn Hải | 2A202601708 |
+| [Họ tên thành viên 2] | [MSSV] |
+| [Họ tên thành viên 3] | [MSSV] |
+| [Họ tên thành viên 4] | [MSSV] |
+| [Họ tên thành viên 5] | [MSSV] |
+
 - Repository: `hoaianthai345/phase2-k3-4-track3-day8-langgraph-agent`
 - Execution command: `make run-scenarios && make grade-local`
 - LLM configuration: one of `GEMINI_API_KEY`, `OPENAI_API_KEY`, or `ANTHROPIC_API_KEY` is required. The classifier uses structured output and the response node invokes the configured LLM.
