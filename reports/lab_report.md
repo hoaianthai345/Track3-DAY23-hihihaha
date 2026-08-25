@@ -7,7 +7,7 @@
 | Nguyễn Văn Hải | 2A202601708 |
 | Thái Hoài An | 2A202601862 |
 | Trần Quang Minh | 2A202601210 |
-| [Họ tên thành viên 4] | [MSSV] |
+| Nguyễn Thanh Tùng | 2A202601140 |
 | Dương Đức Minh | 2A202601306 |
 
 - Repository: `hoaianthai345/phase2-k3-4-track3-day8-langgraph-agent`
