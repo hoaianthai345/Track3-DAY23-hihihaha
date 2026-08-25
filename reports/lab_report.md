@@ -5,7 +5,7 @@
 | Member | Student ID |
 | --- | --- |
 | Nguyễn Văn Hải | 2A202601708 |
-| [Họ tên thành viên 2] | [MSSV] |
+| Thái Hoài An | 2A202601862 |
 | [Họ tên thành viên 3] | [MSSV] |
 | [Họ tên thành viên 4] | [MSSV] |
 | [Họ tên thành viên 5] | [MSSV] |
