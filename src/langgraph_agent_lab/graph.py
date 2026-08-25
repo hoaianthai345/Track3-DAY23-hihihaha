@@ -79,12 +79,28 @@ def build_graph(checkpointer: Any | None = None):
 
     workflow.add_edge(START, "intake")
     workflow.add_edge("intake", "classify")
-    workflow.add_conditional_edges("classify", route_after_classify)
+    workflow.add_conditional_edges(
+        "classify",
+        route_after_classify,
+        {
+            "answer": "answer",
+            "tool": "tool",
+            "clarify": "clarify",
+            "risky_action": "risky_action",
+            "retry": "retry",
+        },
+    )
     workflow.add_edge("tool", "evaluate")
-    workflow.add_conditional_edges("evaluate", route_after_evaluate)
-    workflow.add_conditional_edges("retry", route_after_retry)
+    workflow.add_conditional_edges(
+        "evaluate", route_after_evaluate, {"answer": "answer", "retry": "retry"}
+    )
+    workflow.add_conditional_edges(
+        "retry", route_after_retry, {"tool": "tool", "dead_letter": "dead_letter"}
+    )
     workflow.add_edge("risky_action", "approval_gate")
-    workflow.add_conditional_edges("approval_gate", route_after_approval)
+    workflow.add_conditional_edges(
+        "approval_gate", route_after_approval, {"tool": "tool", "clarify": "clarify"}
+    )
     for node in ("answer", "clarify", "dead_letter"):
         workflow.add_edge(node, "finalize")
     workflow.add_edge("finalize", END)

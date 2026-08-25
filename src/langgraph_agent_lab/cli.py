@@ -56,5 +56,14 @@ def validate_metrics(metrics: Annotated[Path, typer.Option("--metrics")]) -> Non
     typer.echo(f"Metrics valid. success_rate={report.success_rate:.2%}")
 
 
+@app.command("export-graph")
+def export_graph(output: Annotated[Path, typer.Option("--output")]) -> None:
+    """Export the compiled workflow diagram as Mermaid source."""
+    mermaid = build_graph(checkpointer=None).get_graph().draw_mermaid()
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(mermaid, encoding="utf-8")
+    typer.echo(f"Wrote Mermaid graph to {output}")
+
+
 if __name__ == "__main__":
     app()

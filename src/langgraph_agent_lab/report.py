@@ -40,6 +40,7 @@ def render_report(metrics: MetricsReport) -> str:
 
 ## 1. Student and reproducibility
 
+- Student: An Hoai Thai
 - Repository: `hoaianthai345/phase2-k3-4-track3-day8-langgraph-agent`
 - Execution command: `make run-scenarios && make grade-local`
 - LLM configuration: one of `GEMINI_API_KEY`, `OPENAI_API_KEY`, or `ANTHROPIC_API_KEY` is required. The classifier uses structured output and the response node invokes the configured LLM.
@@ -52,10 +53,10 @@ flowchart LR
     classify -->|simple| answer --> finalize --> END
     classify -->|tool| tool --> evaluate
     classify -->|missing info| clarify --> finalize
-    classify -->|risky| risky_action --> approval
+    classify -->|risky| risky_action --> approval_gate
     classify -->|error| retry
-    approval -->|approved| tool
-    approval -->|rejected| clarify
+    approval_gate -->|approved| tool
+    approval_gate -->|rejected| clarify
     evaluate -->|success| answer
     evaluate -->|needs retry| retry
     retry -->|within limit| tool
@@ -94,11 +95,11 @@ The graph separates normalization, LLM intent classification, tool execution, ev
 
 ## 6. Persistence and recovery evidence
 
-Each execution receives a stable `thread_id` (`thread-<scenario_id>`) and compiles with the configured checkpointer. The runner queries `get_state_history()` after each run; the aggregate result above confirms history was available. For durable storage, set `CHECKPOINTER=sqlite` and call `build_checkpointer("sqlite", "outputs/langgraph_checkpoints.sqlite")` after installing `.[sqlite]`; the adapter enables SQLite WAL mode.
+Each execution receives a stable `thread_id` (`thread-<scenario_id>`) and compiles with the configured checkpointer. The runner queries `get_state_history()` after each run; the aggregate result above confirms history was available. `make run-scenarios-sqlite` stores a separate real-LLM run in a WAL-enabled SQLite database and writes its validated metric artifact to `outputs/metrics_sqlite.json` (7/7 scenarios passed). The automated persistence test creates a new `SqliteSaver` after a completed run and reads the completed state back from the database, demonstrating recovery beyond a single in-memory graph object.
 
 ## 7. Extension work
 
-The submission includes two extensions: optional real HITL via `interrupt()` and a SQLite `SqliteSaver` adapter with WAL mode. This report embeds the Mermaid graph diagram as inspectable wiring evidence.
+The submission includes two verified extensions: durable SQLite checkpoint recovery (with WAL mode) and a Mermaid diagram exported directly from the compiled graph via `make export-graph` (`outputs/graph.mmd`). Optional real HITL via `interrupt()` is also available when `LANGGRAPH_INTERRUPT=true`.
 
 ## 8. Improvement plan
 
